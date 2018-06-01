@@ -1,0 +1,36 @@
+
+#mainContainer {
+    text-align: center
+}
+
+#inputHeader{
+    text-align: left
+}
+
+.movieInfo{
+    list-style: none;
+}
+
+.info{
+    display: inline;
+    padding: 0 10px;
+    text-align: center
+}
+
+.header{
+    text-align: center
+}
+
+.infoLeft{
+    text-align: left;
+}
+
+.title{
+    color: white
+}
+
+
+
+
+
+
