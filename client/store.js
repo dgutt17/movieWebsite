@@ -30,8 +30,10 @@ const reducer = (state=initialState, action) => {
 
 export const addMovieThunk = (searchTerm) =>{
     return async (dispatch) =>{
-        const res = await axios.get(`http://www.omdbapi.com/?t=${searchTerm}&${key}`)
+        console.log('searchTerm in thunk: ', searchTerm)
+        const res = await axios.post('/api/user/ratings', {movie: searchTerm})
         const newMovie = res.data
+        console.log('newMovie: ', newMovie)
         dispatch(addMovie(newMovie))
     }
 }

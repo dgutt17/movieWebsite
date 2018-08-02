@@ -21,14 +21,16 @@ class HomePage extends Component {
 
     handleSubmit = async event =>{
         event.preventDefault()
-        const searchTerm = this.state.searchTerm.split(' ').join('_')
+        const searchTerm = this.state.searchTerm
         this.props.displayMovie(searchTerm)
     }
     
 
     render() {
+        const {newMovie} = this.props
+        console.log('newMovie: ', newMovie)
         return (
-            <div id="mainContainer" className="p-3 mb-2 bg-info text-white">
+            <div id="mainContainer">
                 <h1>Fresh Tomatoes</h1>
                 <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
                     <div><label htmlFor="searchTerm"><h4>Movie Title</h4></label></div>
@@ -38,18 +40,18 @@ class HomePage extends Component {
                 {Object.keys(this.props.newMovie).length ? 
                     <div>
                         <Link to={'/singleMovie'}>
-                            <div className="title"><h3>{this.props.newMovie.Title}</h3></div>
+                            <div className="title"><h3>{newMovie.title}</h3></div>
                         </Link>
-                        <div><img src={this.props.newMovie.Poster}/></div>
+                        <div><img src={newMovie.poster}/></div>
                         <div className="info">
                             <ul className="movieInfo">
-                                <li className="info">{`Rotten Tomatoes: ${this.props.newMovie.Ratings[1].Value}`}</li>
-                                <li className="info">{`Imdb: ${this.props.newMovie.Ratings[0].Value}`}</li>
-                                <li className="info">{`Metacritic: ${this.props.newMovie.Ratings[2].Value}`}</li>
+                                <li className="info">{`Rotten Tomatoes: ${newMovie.rottenTomatoes}`}</li>
+                                <li className="info">{`Imdb: ${newMovie.imdb}/10`}</li>
+                                <li className="info">{`Metacritic: ${newMovie.metacritic}/100`}</li>
                             </ul>
                         </div>
                     </div>: 
-                    <div className="p-3 mb-2 bg-info text-white">
+                    <div>
                         <img src="homepage.jpg" className="p-3 mb-2 bg-info text-white"/>
                     </div>
                 }

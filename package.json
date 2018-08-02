@@ -1,12 +1,13 @@
 {
-  "name": "moviewebsite",
+  "name": "fresh-tomatoes",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./server/app.js",
-    "build": "webpack -w & nodemon ./server/app.js -e html,js,css --ignore public"
+    "build": "webpack -w & nodemon ./server/app.js -e html,js,css --ignore public",
+    "start-dev": "NODE_ENV='development' npm run build"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,8 @@
     "lodash": "^4.17.10",
     "morgan": "^1.9.0",
     "nodemon": "^1.17.4",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
@@ -28,7 +31,8 @@
     "react-router-dom": "^4.2.2",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "sequelize": "^4.38.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

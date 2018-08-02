@@ -8,7 +8,7 @@ class SingleMovie extends Component {
 
     render(){
         return (
-            <div className="p-3 mb-2 bg-info text-white">
+            <div>
                 <div>
                     <Link to={'/'}>
                         <button className="btn btn-danger">Home Button</button>

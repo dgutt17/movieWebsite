@@ -150,7 +150,7 @@ var HomePage = function (_Component) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 event.preventDefault();
-                                searchTerm = _this.state.searchTerm.split(' ').join('_');
+                                searchTerm = _this.state.searchTerm;
 
                                 _this.props.displayMovie(searchTerm);
 
@@ -176,9 +176,12 @@ var HomePage = function (_Component) {
     _createClass(HomePage, [{
         key: 'render',
         value: function render() {
+            var newMovie = this.props.newMovie;
+
+            console.log('newMovie: ', newMovie);
             return _react2.default.createElement(
                 'div',
-                { id: 'mainContainer', className: 'p-3 mb-2 bg-info text-white' },
+                { id: 'mainContainer' },
                 _react2.default.createElement(
                     'h1',
                     null,
@@ -219,14 +222,14 @@ var HomePage = function (_Component) {
                             _react2.default.createElement(
                                 'h3',
                                 null,
-                                this.props.newMovie.Title
+                                newMovie.title
                             )
                         )
                     ),
                     _react2.default.createElement(
                         'div',
                         null,
-                        _react2.default.createElement('img', { src: this.props.newMovie.Poster })
+                        _react2.default.createElement('img', { src: newMovie.poster })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -237,23 +240,23 @@ var HomePage = function (_Component) {
                             _react2.default.createElement(
                                 'li',
                                 { className: 'info' },
-                                'Rotten Tomatoes: ' + this.props.newMovie.Ratings[1].Value
+                                'Rotten Tomatoes: ' + newMovie.rottenTomatoes
                             ),
                             _react2.default.createElement(
                                 'li',
                                 { className: 'info' },
-                                'Imdb: ' + this.props.newMovie.Ratings[0].Value
+                                'Imdb: ' + newMovie.imdb + '/10'
                             ),
                             _react2.default.createElement(
                                 'li',
                                 { className: 'info' },
-                                'Metacritic: ' + this.props.newMovie.Ratings[2].Value
+                                'Metacritic: ' + newMovie.metacritic + '/100'
                             )
                         )
                     )
                 ) : _react2.default.createElement(
                     'div',
-                    { className: 'p-3 mb-2 bg-info text-white' },
+                    null,
                     _react2.default.createElement('img', { src: 'homepage.jpg', className: 'p-3 mb-2 bg-info text-white' })
                 )
             );
@@ -329,7 +332,7 @@ var Root = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                { id: 'rootContainer', className: 'p-3 mb-2 bg-info text-white' },
+                null,
                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _HomePage2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/singleMovie', component: _SingleMovie2.default })
             );
@@ -395,7 +398,7 @@ var SingleMovie = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                { className: 'p-3 mb-2 bg-info text-white' },
+                null,
                 _react2.default.createElement(
                     'div',
                     null,
@@ -627,16 +630,18 @@ var addMovieThunk = exports.addMovieThunk = function addMovieThunk(searchTerm) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
-                            _context.next = 2;
-                            return _axios2.default.get('http://www.omdbapi.com/?t=' + searchTerm + '&' + _key.key);
+                            console.log('searchTerm in thunk: ', searchTerm);
+                            _context.next = 3;
+                            return _axios2.default.post('/api/user/ratings', { movie: searchTerm });
 
-                        case 2:
+                        case 3:
                             res = _context.sent;
                             newMovie = res.data;
 
+                            console.log('newMovie: ', newMovie);
                             dispatch(addMovie(newMovie));
 
-                        case 5:
+                        case 7:
                         case 'end':
                             return _context.stop();
                     }
