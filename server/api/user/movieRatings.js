@@ -22,7 +22,6 @@ router.post('/', async (req, res, next)=>{
             const imdbSearchTerm = searchTerm.split(' ').join('_')
             const imdbRes = await axios.get(`http://www.omdbapi.com/?t=${imdbSearchTerm}&${key}`)
             const movie = imdbRes.data;
-            // console.log('movie: ', movie)
             const newMovie = await Movie.create({
                 title: movie.Title,
                 rottenTomatoes: movie.Ratings.find(rating => rating.Source === 'Rotten Tomatoes').Value,
@@ -34,15 +33,25 @@ router.post('/', async (req, res, next)=>{
                 poster: movie.Poster,
                 plot: movie.Plot
             })
-            const dbActors = await Actor.findAll()
-            console.log('dbActors: ', dbActors)
             const actors = await Promise.all(movie.Actors.split(',').map(async actor => {
-                return await Actor.create({
-                    name: actor
+                const answer = await Actor.findOrCreate({
+                    where:{
+                        name: actor
+                    }
                 })
+                return answer.map(elem => elem)[0]
             }))
-            console.log('actors: ', actors)
-            newMovie.addActors(actors)
+            const writers = await Promise.all(movie.Writer.split(',').map(async writer => {
+                const answer = await Writer.findOrCreate({
+                    where:{
+                        name: writer
+                    }
+                })
+                return answer.map(elem => elem)[0]
+            }))
+
+            newMovie.addWriter(writers)
+            newMovie.addActor(actors)
             res.json(newMovie)
         }
     } catch (err){
