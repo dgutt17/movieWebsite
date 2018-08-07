@@ -8,7 +8,7 @@ const Movie = db.define('movie', {
     rottenTomatoes: {
         type: Sequelize.STRING
     },
-    imdb: {
+    imdbScore: {
         type: Sequelize.STRING
     },
     metacritic: {
