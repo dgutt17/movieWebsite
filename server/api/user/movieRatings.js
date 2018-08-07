@@ -46,11 +46,23 @@ router.post('/', async (req, res, next)=>{
                 })
                 return answer.map(elem => elem)[0]
             }))
-            const writers = await Promise.all(movie.Writer.split(',').map(async writer => {
+            let writerHashMap = {};
+            let writers1 = movie.Writer.split(',').map(writer => {
                 if(writer[0] === ' '){
                     writer = writer.slice(1)
                 }
                 writer = writer.split(' ').slice(0, 2).join(' ')
+                if(writer[writer.length-1] === ' '){
+                    writer = writer.slice(-1)
+                }
+                return writer
+            })
+            for(let i = 0; i < writers1.length; i++){
+                writerHashMap[writers1[i]] = true
+            }
+            let writers2 = Object.keys(writerHashMap)
+            console.log('writers2: ', writers2)
+            const writers = await Promise.all(writers2.map(async writer => {
                 const answer = await Writer.findOrCreate({
                     where:{
                         name: writer
